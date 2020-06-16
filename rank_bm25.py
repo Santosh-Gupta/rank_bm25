@@ -72,6 +72,13 @@ class BM25:
         top_n = np.argsort(scores)[::-1][:n]
         return [documents[i] for i in top_n]
 
+    def get_top_n_andScores(self, query, documents, n=5):
+
+        assert self.corpus_size == len(documents), "The documents given don't match the index corpus!"
+
+        scores = self.get_scores(query)
+        top_n = np.argsort(scores)[::-1][:n]
+        return [[documents[i] for i in top_n],[scores[i] for i in top_n]]
 
 class BM25Okapi(BM25):
     def __init__(self, corpus, tokenizer=None, k1=1.5, b=0.75, epsilon=0.25):
